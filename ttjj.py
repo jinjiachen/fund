@@ -38,6 +38,6 @@ def save_with_selenium(url, save_name="page_selenium.html"):
 
 
 if __name__=='__main__':
-#    url='https://fundf10.eastmoney.com/ccmx_009776.html'
-    url=input('please input the url:')
+    code=input('please input the url:')
+    url=f'https://fundf10.eastmoney.com/ccmx_{code}.html'
     save_with_selenium(url)
