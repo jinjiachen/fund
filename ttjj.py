@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from lxml import etree
 
 
-def save_with_selenium(url, save_name="page_selenium.html"):
+def save_with_selenium(url, save_name="page_selenium.html",ptf="NO"):
     """Selenium 真实浏览器抓取（支持动态JS）"""
     print(f"[2] 正在用 Selenium 抓取：{url}")
     
@@ -19,22 +19,25 @@ def save_with_selenium(url, save_name="page_selenium.html"):
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
     time.sleep(3)
-    html = driver.page_source
+    html = driver.page_source#渲染后的网页源代码
     driver.quit()
-    selector=etree.HTML(html)
+    selector=etree.HTML(html)#转换成lxml的对象
     res=selector.xpath('//div[@id="cctable"]//a/text()')
-    print(res)
-    print(len(res))
-    wanted=res[1:len(res)]
+    wanted=res[1:len(res)]#股票名称和代码
+    span=selector.xpath('//div[@id="cctable"]//span/text()')#涨跌幅信息
+    if ptf=='YES':
+        print(res)
+        print(span)
+        #print(len(res))
     for n in range(0,10):
-        print(wanted[5*n],wanted[5*n+1])
+        print(wanted[5*n],wanted[5*n+1],span[2*n],span[2*n+1])#通过规律观察,输出想要的参数
 
 
-"""
+'''
     with open(save_name, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"✅ 保存成功：{save_name}")
-"""
+'''
 
 
 if __name__=='__main__':
